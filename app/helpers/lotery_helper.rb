@@ -1,0 +1,2 @@
+module LoteryHelper
+end

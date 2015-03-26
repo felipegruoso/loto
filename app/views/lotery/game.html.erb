@@ -1,0 +1,110 @@
+<h1>
+  <a href="/">
+    <i class="icon-arrow-left-3 fg-darker smaller"></i>
+  </a>
+  <%= @game[:name] %>
+</h1>
+
+<div class="grid">
+  <div class="row">
+    <div class="span9">
+      <div class="tiles">
+
+        <a href="/<%= @game[:type] %>/listar" data-ballon="list">
+          <div class="tile double <%= @game[:css_class] %>">
+            <div class="tile-content icon">
+              <i class="icon-list"></i>
+            </div>
+            <div class="tile-status">
+              <span class="name">Listar Resultados</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="/<%= @game[:type] %>/conferir" data-ballon="check">
+          <div class="tile <%= @game[:css_class] %>">
+              <div class="tile-content icon">
+                  <i class="icon-checkmark"></i>
+              </div>
+              <div class="tile-status">
+                  <span class="name">Conferir Jogos</span>
+              </div>
+          </div>
+        </a>
+
+        <a href="/<%= @game[:type] %>/gerar" data-ballon="generate">
+          <div class="tile double <%= @game[:css_class] %>">
+              <div class="tile-content icon">
+                  <i class="icon-new"></i>
+              </div>
+              <div class="tile-status">
+                  <span class="name">Gerar Combinações</span>
+              </div>
+          </div>
+        </a>
+
+        <a href="/<%= @game[:type] %>/probabilidades" data-ballon="probabilities">
+          <div class="tile quadro <%= @game[:css_class] %>">
+              <div class="tile-content icon">
+                  <i class="icon-calculate"></i>
+              </div>
+              <div class="tile-status">
+                  <span class="name">Probabilidades</span>
+              </div>
+          </div>
+        </a>
+
+        <a href="/<%= @game[:type] %>/meujogojasaiu" data-ballon="already">
+          <div class="tile <%= @game[:css_class] %>">
+              <div class="tile-content icon">
+                  <i class="icon-help"></i>
+              </div>
+              <div class="tile-status">
+                  <span class="name">Já saiu?</span>
+              </div>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="span3">
+      <div id="list-ballon" class="balloon right padding-text invisible-div">
+        <span>
+          Listar todos os resultados já registrados na história da <%= @game[:name] %>. Inclui as dezenas sorteadas, número e data do sorteio.
+        </span>
+      </div>
+      <div id="check-ballon" class="balloon right padding-text invisible-div">
+        <span>
+          Confira se seu jogo foi sorteado! Aqui é possível optar por conferir somente um jogo ou vários jogos simultâneamente (várias apostas, bolão, etc.)
+        </span>
+      </div>
+      <div id="generate-ballon" class="balloon right padding-text invisible-div">
+        <span>
+          Gerar combinações para apostas. Possibilita geração de apostas aleatórias ou com alguns padrões já definidos, utilização de técnicas para combinações e até mesmo completar as dezenas de uma aposta definida pelo usuário.
+        </span>
+      </div>
+      <div id="probabilities-ballon" class="balloon right padding-text invisible-div">
+        <span>
+          Calcula, através de fórmulas, teorias e probabilidades, possíveis combinações das dezenas aumentando a chance de acerto.
+        </span>
+      </div>
+      <div id="already-ballon" class="balloon right padding-text invisible-div">
+        <span>
+          Quer fazer uma aposta, mas teme que sua combinação já tenha sido sorteada? Confira aqui.
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function() {
+    $(".tiles a").mouseover(function() {
+      var ballon = $(this).attr("data-ballon");
+      $("#" + ballon + "-ballon").removeClass('invisible-div');
+    });
+    $(".tiles a").mouseout(function() {
+      var ballon = $(this).attr("data-ballon");
+      $("#" + ballon + "-ballon").addClass('invisible-div');
+    });
+  });
+</script>

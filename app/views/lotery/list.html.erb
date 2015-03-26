@@ -1,0 +1,84 @@
+<h1>
+  <a href="/<%= @game[:type] %>">
+    <i class="icon-arrow-left-3 fg-darker smaller"></i>
+  </a>
+  <%= @game[:name] %>
+</h1>
+
+<div id="dataTables-1_wrapper" class="dataTables_wrapper" role="grid">
+  <div class="dataTables_length" id="dataTables-1_length">
+    <label>Listar 
+      <select name="dataTables-1_length" aria-controls="dataTables-1" class="">
+        <option value="10">10</option>
+        <option value="25">25</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+      </select> resultados
+    </label>
+  </div>
+  <div id="dataTables-1_filter" class="dataTables_filter">
+    <label>Pesquisar:
+      <input type="search" class="" aria-controls="dataTables-1">
+    </label>
+  </div>
+  <div id="dataTables-1_processing" class="dataTables_processing" style="visibility: hidden;">Processando...
+  </div>
+  <table class="table striped hovered dataTable" id="dataTables-1" aria-describedby="dataTables-1_info" style="width: 600px;">
+    <thead>
+      <tr role="row">
+        <th class="text-left sorting_asc" tabindex="0" aria-controls="dataTables-1" rowspan="1" colspan="1" aria-label="Engine: activate to sort column ascending" style="width: 162px;" aria-sort="ascending">Concurso
+        </th>
+        <th class="text-left sorting" tabindex="0" aria-controls="dataTables-1" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 286px;">Data
+        </th>
+        <th class="text-left sorting" tabindex="0" aria-controls="dataTables-1" rowspan="1" colspan="1" aria-label="Platform: activate to sort column ascending" style="width: 267px;">Números
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @results.each do |result| %>
+        <tr>
+          <td><%= result[:raffle_number] %></td>
+          <td><%= result[:date].strftime("%d/%m/%Y") %></td>
+          <td><%= result[:numbers].join(" ") %></td>
+        </tr>
+      <% end %>
+    </tbody>
+
+    <tfoot>
+      <tr>
+        <th class="text-left" rowspan="1" colspan="1">Concurso</th>
+        <th class="text-left" rowspan="1" colspan="1">Data</th>
+        <th class="text-left" rowspan="1" colspan="1">Números</th>
+      </tr>
+    </tfoot>
+  </table>
+  <div class="dataTables_info" id="dataTables-1_info" role="alert" aria-live="polite" aria-relevant="all">Listando 1 a 10 de <%= @results.size %> resultados
+  </div>
+  <div class="dataTables_paginate paging_simple_numbers" id="dataTables-1_paginate">
+    <a class="paginate_button previous disabled" aria-controls="dataTables-1" tabindex="0" id="dataTables-1_previous">Anterior</a>
+    <span>
+      <a class="paginate_button current" aria-controls="dataTables-1" tabindex="0">1</a>
+      <a class="paginate_button " aria-controls="dataTables-1" tabindex="0">2</a>
+      <a class="paginate_button " aria-controls="dataTables-1" tabindex="0">3</a>
+      <a class="paginate_button " aria-controls="dataTables-1" tabindex="0">4</a>
+      <a class="paginate_button " aria-controls="dataTables-1" tabindex="0">5</a><a class="paginate_button " aria-controls="dataTables-1" tabindex="0">6</a>
+    </span>
+    <a class="paginate_button next" aria-controls="dataTables-1" tabindex="0" id="dataTables-1_next">Próxima</a>
+  </div>
+</div>
+<script>
+
+                $(function(){
+                    $('#dataTables-1').dataTable( {
+                        "bProcessing": true,
+                        "sAjaxSource": "data/dataTables-objects.txt",
+                        "aoColumns": [
+                            { "mData": "raffle" },
+                            { "mData": "date" },
+                            { "mData": "numbers" },
+                        ]
+                    } );
+                });
+
+</script>

@@ -1,0 +1,30 @@
+:games:
+  - :type: "lotofacil"
+    :route: "/lotofacil"
+    :name: "Lotofácil"
+    :css_class: "bg-darkPink"
+    :quantity_of_numbers: 15
+    :max_numbers: 18
+    :number_limit: 25
+    :zero_allowed: false
+    :quantity_per_line: 5
+
+  - :type: "lotomania"
+    :route: "/lotomania"
+    :name: "Lotomania"
+    :css_class: "bg-darkOrange"
+    :quantity_of_numbers: 50
+    :max_numbers: 50
+    :number_limit: 99
+    :zero_allowed: true
+    :quantity_per_line: 10
+
+  - :type: "megasena"
+    :route: "/megasena"
+    :name: "Mega-Sena"
+    :css_class: "bg-darkGreen"
+    :quantity_of_numbers: 6
+    :max_numbers: 15
+    :number_limit: 59
+    :zero_allowed: true
+    :quantity_per_line: 6

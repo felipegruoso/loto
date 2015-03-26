@@ -1,0 +1,76 @@
+<% @quantity = @game[:max_numbers] / @game[:quantity_per_line] %>
+<% @rest     = @game[:max_numbers] % @game[:quantity_per_line] %>
+<% @quantity.times do |qnt| %>
+  <div>
+    <% @game[:quantity_per_line].times do |n| %>
+      <input type="text" id="number_input" class="number_input" name="number_<%= (qnt * @game[:quantity_per_line]) + n %>" maxlength="2" >
+    <% end %>
+  </div>
+<% end %>
+
+<% if @rest > 0 %>
+  <div>
+    <% @rest.times do |n| %>
+      <input type="text" id="number_input" class="number_input" name="number_<%= (@game[:max_numbers] - @rest) + n %>" maxlength="2" >
+    <% end %>
+  </div>
+<% end %>
+
+<script>
+  $(document).ready(function() {
+    $("input").keydown(function (e) {
+      // Allow: backspace, delete, tab, escape, enter and .
+      if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+         // Allow: Ctrl+A
+        (e.keyCode == 65 && e.ctrlKey === true) || 
+         // Allow: home, end, left, right, down, up
+        (e.keyCode >= 35 && e.keyCode <= 40)) {
+             // let it happen, don't do anything
+             return;
+      }
+      // Ensure that it is a number and stop the keypress
+      if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+          e.preventDefault();
+      }
+    });
+
+    $("input").keyup(function (e) {
+      var v = this.value;
+
+      if(v > <%= @game[:number_limit] %> || (v == 0 && <%= @game[:zero_allowed] %> == false )) {
+        // || isUniq(inputValues()) == false)) {
+        this.value = "";
+      }
+      if(this.value.length == 2) {
+        $(this).next('input').focus();
+      }
+
+      if(arrayUnique(inputValues()).length >= <%= @game[:quantity_of_numbers] %>) {
+        $('#btn-check-individual').attr("disabled", false);
+      } else {
+        $('#btn-check-individual').attr("disabled", true);
+      }
+    });
+
+    function isUniq(values) {
+      var uniqs = arrayUnique(values);
+      return values.length == uniqs.length
+    };
+
+    function inputValues() {
+      var numbers = []
+      $(".number_input").each(function() {
+        numbers.push($(this).val());
+      });
+      
+      return numbers.filter(function(n){ return n != '' }); 
+    }
+
+    function arrayUnique(a) {
+      return a.reduce(function(p, c) {
+          if (p.indexOf(c) < 0) p.push(c);
+          return p;
+      }, []);
+     };
+  });
+</script>

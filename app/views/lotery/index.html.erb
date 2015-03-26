@@ -1,0 +1,11 @@
+<h1>Bem Vindo, selecione um jogo:</h1>
+
+<div class="tiles">
+<% Lotery::GAMES_TYPE.each do |game| %>
+  <a href="/<%= game %>">
+    <div class="tile double back">
+      <%= image_tag("#{game}.png", :class => "centralized-logo")%>
+    </div>
+  </a>
+<% end %>
+</div>

@@ -1,0 +1,87 @@
+// Place all the styles related to the lotery controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.centralized-logo {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 40px;
+}
+
+.vertical {
+  display: table-cell;
+  width: 100%;
+  vertical-align: middle;
+}
+
+.individual {
+  height: 270px;
+}
+
+.batch {
+  height: 320px;
+}
+
+.vertical-inner {
+  display: inline-block;
+  text-align: left;
+}
+
+.back {
+  background-color: #FFF !important;
+}
+
+.number_input {
+  width: 23px;
+  margin-top: 5px;
+}
+
+.cursor-normal {
+  cursor: default;
+}
+
+.text {
+  color: #FFF;
+}
+
+.marged {
+  margin-left: 10px !important;
+  margin-top: 5px !important;
+}
+
+.button-check {
+  margin-top: 10px !important;
+  background-color: #fff !important;
+}
+
+.tile-button {
+  margin-bottom: 15px !important;
+}
+
+.padding-text {
+  padding: 20px !important;
+}
+
+.invisible-div {
+  display: none !important;
+}
+
+.left-marged-10 {
+  margin-left: 10px;
+}
+
+.button-batch {
+  margin-bottom: 10px !important;
+}
+
+.padding-top-10 {
+  padding-top: 10px;
+}
+
+.textarea {
+  width: 100%;
+  margin: 0px;
+  height: 163px;
+  resize: none;
+}

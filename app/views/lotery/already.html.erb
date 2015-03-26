@@ -1,0 +1,194 @@
+<h1>
+  <a href="/<%= @game[:type] %>">
+    <i class="icon-arrow-left-3 fg-darker smaller"></i>
+  </a>
+  <%= @game[:name] %>
+</h1>
+
+<!-- Individual -->
+<div class="grid">
+  <div class="row">
+    <div class="tile quadro triple-vertical <%= @game[:css_class] %> ol-transparent">
+      <div class="tile-content cursor-normal marged">
+        <div>
+          <span class="text">
+            Aposta Individual:
+          </span>
+        </div>
+        <div>
+          <span class="text">
+            Lembre-se que a quantidade mínima de números é: <%= @game[:quantity_of_numbers] %>.
+          </span>
+        </div>
+        <div>
+          <span class="text">
+            Insira os números da sua aposta:
+          </span>
+        </div>
+        <div class="vertical individual">
+          <div class="inner-vertical">
+            <%= render template: '/layouts/input' %>
+          </div>
+        </div>
+        <div class="tile-status tile-button">
+          <button id="btn-check-individual" class="button large button-check" disabled>Conferir</button>
+        </div>
+      </div>
+    </div>
+    <!-- Batch -->
+    <div class="tile quadro triple-vertical <%= @game[:css_class] %> ol-transparent">
+      <div class="tile-content cursor-normal">
+        <div class="marged">
+          <span class="text">
+            Apostas em lote:
+          </span>
+        </div>
+        <div class="vertical batch">
+          <div class="vertical-inner left-marged-10">
+            <div class="grid">
+              <div class="row">
+                <div class="span2">
+                  <div class="tiles">
+                    <div id="file-icon" class="tile <%= @game[:css_class] %>">
+                      <div class="tile-content icon">
+                        <i class="icon-folder"></i>
+                      </div>
+                      <div class="tile-status">
+                        <span class="name">Arquivo</span>
+                      </div>
+                    </div>
+                    <div id="manual-icon" class="tile <%= @game[:css_class] %>">
+                      <div class="tile-content icon">
+                        <i class="icon-pencil"></i>
+                      </div>
+                      <div class="tile-status">
+                        <span class="name">Manual</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="span4">
+                  <div class="invisible-div" id="file-div">
+                    <div>
+                      <span class="text">Selecione o arquivo que contém as apostas.</span>
+                    </div>
+                    <div>
+                      <span class="text">É importante lembrar que deve haver apenas uma aposta por linha no arquivo e cada dezena deve ser separada por ";" ou ESPAÇO.</span>
+                    </div>
+                    <div class="element input-element padding-top-10">
+                      <div class="input-control text">
+                        <input id="file-chooser" class="invisible-div" type="file" accept="text/plain" />
+                        <input id="file-name" type="text" placeholder="Selecione o arquivo" readonly />
+                        <button id="btn-file" class="btn-file"></button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="invisible-div" id="manual-div">
+                    <div>
+                      <span class="text">Insira as apostas na área abaixo.</span>
+                    </div>
+                    <div>
+                      <span class="text">É importante lembrar que deve haver apenas uma aposta por linha e cada dezena deve ser separada por ";" ou ESPAÇO.</span>
+                    </div>
+                    <div class="padding-top-10">
+                      <textarea id="textarea" class="textarea"></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tile-status marged button-batch">
+          <input id="service" type="hidden">
+          <button id="btn-check-batch" class="button large button-check" disabled>Conferir</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div id="flash_messages">
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready( function() {
+    $("#file-icon").click(function() {
+      $("#manual-div").addClass('invisible-div');
+      $("#file-div").removeClass('invisible-div');
+      $("#textarea").val("");
+      $("#service").val("file");
+      $("#btn-check-batch").removeAttr("disabled");
+    });
+
+    $("#manual-icon").click(function() {
+      $("#file-div").addClass('invisible-div');
+      $("#manual-div").removeClass('invisible-div');
+      $("#textarea").val("");
+      $("#service").val("manual");
+      $("#btn-check-batch").removeAttr("disabled");
+    });
+
+    $("#btn-check-batch").click(function() {
+      var file    = "file";
+      var manual  = "manual";
+      var service = $("#service").val();
+
+      if(service == file) {
+        var file       = document.getElementById('file-chooser').files[0];
+        var fileReader = new FileReader();
+        fileReader.onload = function(){
+          var text = fileReader.result;
+          ajaxRequest(text);
+        };
+        fileReader.readAsText(file);
+
+      } else if(service == manual) {
+        var text = $('#textarea').val();
+        ajaxRequest(text);
+      }
+    });
+
+    function ajaxRequest(text) {
+      $.ajax({
+        type: "POST",
+        data: { content: text },
+        url: '<%= "#{@game[:route]}/check_already" %>',
+        success: function(result) {
+          $('#flash_messages').html(result);
+        },
+        error: function(data) {
+          $('#flash_messages').html("Erro ao conferir");
+        }
+      });
+    }
+
+    $("#btn-check-individual").click(function() {
+      var numbers = []
+      $(".number_input").each(function() {
+        numbers.push($(this).val());
+      });
+      var text = numbers.join(' ');
+      ajaxRequest(text);
+    });
+
+    $("#btn-file").click(function() {
+      $('#file-chooser').click();
+    });
+
+    $("#file-chooser").change(function() {
+      var path        = $(this).val();
+      var file        = path.substring(12);
+      var lengthLimit = 35
+      if(file.length < lengthLimit) {
+        $('#file-name').val(file);
+      } else {
+        var firstPart = file.substring(0, 26);
+        var lastPart  = file.substring(file.length - 5, file.length)
+        $('#file-name').val(firstPart + "..." + lastPart);
+      }
+    });
+
+  });
+</script>

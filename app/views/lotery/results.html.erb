@@ -1,0 +1,22 @@
+<table class="table striped hovered dataTable" id="dataTables-1" aria-describedby="dataTables-1_info" style="width: 600px;">
+  <thead>
+    <tr role="row">
+      <th class="text-left sorting_asc" tabindex="0" aria-controls="dataTables-1" rowspan="1" colspan="1" aria-label="Engine: activate to sort column ascending" style="width: 162px;" aria-sort="ascending">Concurso
+      </th>
+      <th class="text-left sorting" tabindex="0" aria-controls="dataTables-1" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 286px;">Data
+      </th>
+      <th class="text-left sorting" tabindex="0" aria-controls="dataTables-1" rowspan="1" colspan="1" aria-label="Platform: activate to sort column ascending" style="width: 267px;">Números
+      </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @results.each do |result| %>
+      <tr>
+        <td><%= result[:raffle_number] %></td>
+        <td><%= result[:date].strftime("%d/%m/%Y") %></td>
+        <td><%= result[:numbers].join(" ") %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
